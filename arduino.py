@@ -25,13 +25,15 @@ class Arduino(object):
         
         self.portString = port
         
-        self.sp.flush()
-        self.sp.writelines('V') # request version as handshake
+        self.sp.flushInput()
+        self.sp.write('V') # request version as handshake
         self.pass_time(0.05)
         for n in range(10):
             if self.bytes_available():
+                print "Theres something!"
                 self.firmware_version = self.sp.readline()
                 self.connected = True
+                print "Connected to " + str(self.firmware_version)
                 break
             self.pass_time(0.1)
             
@@ -49,6 +51,9 @@ class Arduino(object):
 
     def read_bytes(self):
         return self.sp.readall()
+        
+    def read_line(self):
+        return self.sp.readline()
 
     def bytes_available(self):
         return self.sp.inWaiting()
@@ -73,6 +78,15 @@ class Arduino(object):
 if __name__ == "__main__":
     testboard = Arduino(sys.argv[1])
     while True:
-        print testboard.readall()
+        if testboard.bytes_available():
+            byte = ord(testboard.sp.read(1))
+            if byte == 2:
+                print "RIGHT"
+            if byte == 1:
+                print "LEFT"
+            if byte == 3:
+                print "BOTH"
+            testboard.sp.flushInput()
+            time.sleep(0.005)
     
     sys.exit(0)

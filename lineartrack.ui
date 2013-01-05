@@ -23,7 +23,7 @@
    <string>Linear Track Control</string>
   </property>
   <property name="toolTip">
-   <string> </string>
+   <string/>
   </property>
   <widget class="QLabel" name="gfx_track">
    <property name="geometry">
@@ -35,7 +35,7 @@
     </rect>
    </property>
    <property name="autoFillBackground">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
    <property name="styleSheet">
     <string notr="true">background-color: rgb(170, 170, 255);</string>
@@ -60,7 +60,7 @@
     <string>Left sensor status</string>
    </property>
    <property name="autoFillBackground">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
    <property name="styleSheet">
     <string notr="true">background-color: rgba(0, 0, 0, 100);</string>
@@ -82,7 +82,7 @@
     <string>Right Sensor</string>
    </property>
    <property name="autoFillBackground">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
    <property name="styleSheet">
     <string notr="true">background-color: rgba(0, 0, 0, 100);</string>
@@ -97,7 +97,7 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>200</x>
+     <x>190</x>
      <y>40</y>
      <width>8</width>
      <height>61</height>
@@ -173,7 +173,7 @@
     <bool>false</bool>
    </property>
    <property name="frame">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="readOnly">
     <bool>true</bool>
@@ -184,8 +184,11 @@
    <property name="keyboardTracking">
     <bool>false</bool>
    </property>
+   <property name="displayFormat">
+    <string>h:mm:ss</string>
+   </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>290</x>
@@ -212,8 +215,14 @@
         <property name="statusTip">
          <string>Right solenoid open time in [ms]</string>
         </property>
+        <property name="accelerated">
+         <bool>true</bool>
+        </property>
         <property name="maximum">
          <number>10000</number>
+        </property>
+        <property name="singleStep">
+         <number>1</number>
         </property>
         <property name="value">
          <number>30</number>
@@ -238,7 +247,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -268,8 +277,14 @@
         <property name="statusTip">
          <string>Left solenoid open time in [ms]</string>
         </property>
+        <property name="accelerated">
+         <bool>true</bool>
+        </property>
         <property name="maximum">
          <number>10000</number>
+        </property>
+        <property name="singleStep">
+         <number>1</number>
         </property>
         <property name="value">
          <number>30</number>

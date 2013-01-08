@@ -48,8 +48,11 @@ class Arduino(object):
         '''
         self.exit()
 
-    def read_bytes(self):
+    def read_all_bytes(self):
         return self.sp.readall()
+        
+    def read_n_bytes(self, n):
+        return self.sp.read(n)
         
     def read_line(self):
         return self.sp.readline()

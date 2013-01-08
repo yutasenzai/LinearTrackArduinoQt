@@ -13,6 +13,10 @@ from PyQt4 import QtCore, QtGui
 from lineartrackUI import Ui_LinearTrackUI
 import arduino
 
+SENSOR_LEFT = chr(0x01)
+SENSOR_RIGHT = chr(0x02)
+SENSOR_ALL = chr(0x03)
+
 class MyForm(QtGui.QMainWindow):
 
     running = False
@@ -22,9 +26,8 @@ class MyForm(QtGui.QMainWindow):
         QtGui.QWidget.__init__(self, parent)
         self.ui = Ui_LinearTrackUI()
         self.ui.setupUi(self)
-#        QtCore.QObject.connect(self.ui.pushButton, QtCore.SIGNAL("clicked()"), self.ui.textEdit.clear)
-#        QtCore.QObject.connect(self.ui.lineEdit, QtCore.SIGNAL("returnPressed()"), self.add_entry)
 
+        # Trigger checkbox
         QtCore.QObject.connect(self.ui.cb_trigger, QtCore.SIGNAL("clicked()"), self.toggleTrigger)
         
         # Status bar
@@ -41,6 +44,9 @@ class MyForm(QtGui.QMainWindow):
         self.timer = QtCore.QTimer()
         self.timer.timeout.connect(self.checkPhysState)
         self.timer.start(5)
+        
+        self.t_elapsed = QtCore.QTime()
+        self.t_elapsed.start()
         
         
     def closeEvent(self, event):
@@ -62,23 +68,27 @@ class MyForm(QtGui.QMainWindow):
             print "Trigger OFF"
             
     def checkPhysState(self):
-        byte = ord(self.arduino.sp.read(1))
-        if byte > 0:
-            if not self.running:
-                self.running = True
-                t_start = time.clock()
-#            self.ui.lbl_runtime.startTimer()
+        if not self.arduino.bytes_available():
+            return
+        
+        bytestr = self.arduino.read_n_bytes(self.arduino.bytes_available())
+
+#        if byte > 0:
+#            if not self.running:
+#                self.running = True
+#                t_start = time.clock()
+        print self.t_elapsed.elapsed()
+        self.ui.lbl_runtime.setTime(self.t_elapsed) #self.t_elapsed.elapsed()
                 
-        if byte == 1 or byte == 3:
+        if (SENSOR_LEFT in bytestr) or (SENSOR_ALL in bytestr):
             self.ui.gfx_sensor_left.setStyleSheet("background-color: rgba(255, 0, 0, 255);")
         else:
             self.ui.gfx_sensor_left.setStyleSheet("background-color: rgba(0, 0, 0, 100);")
             
-        if byte == 2 or byte == 3:
+        if (SENSOR_RIGHT in bytestr) or (SENSOR_ALL in bytestr):
             self.ui.gfx_sensor_right.setStyleSheet("background-color: rgba(255, 0, 0, 255);")
         else:
             self.ui.gfx_sensor_right.setStyleSheet("background-color: rgba(0, 0, 0, 100);")
-        self.arduino.sp.flushInput()
 
 
 if __name__ == "__main__":

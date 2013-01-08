@@ -28,14 +28,13 @@ class Arduino(object):
         self.sp.flushInput()
         self.sp.write('V') # request version as handshake
         self.pass_time(0.05)
-        for n in range(10):
+        for n in range(100):
             if self.bytes_available():
-                print "Theres something!"
                 self.firmware_version = self.sp.readline()
                 self.connected = True
                 print "Connected to " + str(self.firmware_version)
                 break
-            self.pass_time(0.1)
+            self.pass_time(0.01)
             
 
     def __str__(self):

@@ -77,7 +77,7 @@ class MyForm(QtGui.QMainWindow):
 #            if not self.running:
 #                self.running = True
 #                t_start = time.clock()
-        print self.t_elapsed.elapsed()
+#        print self.t_elapsed.elapsed()
         self.ui.lbl_runtime.setTime(self.t_elapsed) #self.t_elapsed.elapsed()
                 
         if (SENSOR_LEFT in bytestr) or (SENSOR_ALL in bytestr):
